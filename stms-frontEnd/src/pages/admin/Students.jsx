@@ -417,4 +417,64 @@ const Students = () => {
 
       setDistrictCode(d);
       if (d) {
-        const sKids = await locationService.getChildren(d);
+        const sKids = await locationService.getChildren(d);
+        setSectors((sKids || []).filter((l) => l.type === "SECTOR"));
+      }
+
+      setSectorCode(s);
+      if (s) {
+        const cKids = await locationService.getChildren(s);
+        setCells((cKids || []).filter((l) => l.type === "CELL"));
+      }
+
+      setCellCode(c);
+      if (c) {
+        const vKids = await locationService.getChildren(c);
+        setVillages((vKids || []).filter((l) => l.type === "VILLAGE"));
+      }
+
+      setVillageCode(v);
+    } catch (e) {
+      // ignore; editing should still work
+    }
+  };
+
+  const handleNext = () => {
+    // Validate current step before proceeding
+    if (formStep === 1) {
+      if (!formData.name || !formData.email || !formData.className) {
+        toast.error("Please fill in all required fields (Name, Email, Class)");
+        return;
+      }
+    } else if (formStep === 2) {
+      // Step 2 has optional fields, so no validation needed
+    } else if (formStep === 3) {
+      if (!villageCode) {
+        toast.error("Please select a location (Province through Village)");
+        return;
+      }
+    }
+    setFormStep(formStep + 1);
+  };
+
+  const handlePrevious = () => {
+    setFormStep(formStep - 1);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (!villageCode) {
+        toast.error("Student location (village) is required");
+        return;
+      }
+
+      const payload = {
+        ...formData,
+        location: { code: villageCode },
+      };
+
+      if (editingStudent) {
+        await studentService.update(editingStudent.id, payload);
+        toast.success("Student updated successfully");
+      } else {
