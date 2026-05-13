@@ -837,4 +837,64 @@ const Students = () => {
         )}
       </div>
 
-      {showAssignBusModal && (
+      {showAssignBusModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md">
+            <h2 className="text-xl font-bold mb-4">Assign Bus</h2>
+            <p className="text-sm text-gray-600 mb-4">
+              Student:{" "}
+              <span className="font-medium">{assigningStudent?.name}</span>
+            </p>
+            <form onSubmit={handleAssignBus} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Bus
+                </label>
+                <select
+                  value={selectedBusId}
+                  onChange={(e) => setSelectedBusId(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  required
+                >
+                  <option value="">Select bus</option>
+                  {buses.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {b.plateNumber} (cap: {b.capacity})
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowAssignBusModal(false);
+                    setAssigningStudent(null);
+                    setSelectedBusId("");
+                  }}
+                  className="flex-1 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800"
+                >
+                  Assign
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md max-h-[90vh] flex flex-col">
+            <h2 className="text-xl font-bold mb-4">
+              {editingStudent ? "Edit Student" : "Add New Student"}
+            </h2>
+
+            {/* Progress Indicator */}
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-2">
