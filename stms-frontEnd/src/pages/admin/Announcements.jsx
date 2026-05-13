@@ -57,4 +57,64 @@ const Announcements = () => {
         setLoadingRecipients(true);
         try {
             const [studentsData, driversData] = await Promise.all([
-                studentService.getAll().catch(() => []),
+                studentService.getAll().catch(() => []),
+                driverService.getAll().catch(() => [])
+            ]);
+            setStudents(studentsData || []);
+            setDrivers(driversData || []);
+        } catch (error) {
+            console.error('Error fetching recipients:', error);
+        } finally {
+            setLoadingRecipients(false);
+        }
+    };
+
+    const fetchAnnouncements = async () => {
+        try {
+            const data = await announcementService.getAll();
+            setAnnouncements(data || []);
+        } catch (error) {
+            toast.error('Failed to fetch announcements');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const announcementData = {
+                title: formData.title,
+                message: formData.message,
+                priority: formData.priority,
+                targetAudience: formData.targetType === 'SPECIFIC' ? 'SPECIFIC' : formData.targetAudience,
+                recipientEmail: formData.targetType === 'SPECIFIC' ? formData.recipientEmail : null
+            };
+            await announcementService.create(announcementData);
+            toast.success('Announcement created successfully');
+            setShowModal(false);
+            setFormData({ 
+                title: '', 
+                message: '', 
+                priority: 'NORMAL',
+                targetType: 'ROLE',
+                targetAudience: 'ALL',
+                recipientEmail: ''
+            });
+            fetchAnnouncements();
+        } catch (error) {
+            toast.error(getErrorMessage(error, 'Operation failed'));
+        }
+    };
+
+    const fetchReplies = async (announcementId) => {
+        if (replies[announcementId]) {
+            return; // Already loaded
+        }
+
+        setLoadingReplies({ ...loadingReplies, [announcementId]: true });
+        try {
+            const data = await announcementService.getReplies(announcementId);
+            setReplies({ ...replies, [announcementId]: data || [] });
+        } catch (error) {
+            toast.error('Failed to fetch replies');
