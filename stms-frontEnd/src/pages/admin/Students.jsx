@@ -477,4 +477,64 @@ const Students = () => {
       if (editingStudent) {
         await studentService.update(editingStudent.id, payload);
         toast.success("Student updated successfully");
-      } else {
+      } else {
+        await studentService.create(payload);
+        toast.success("Student added successfully");
+        toast("A password setup OTP was sent to the student email.");
+      }
+      setShowModal(false);
+      setEditingStudent(null);
+      setFormStep(1);
+      setFormData({
+        name: "",
+        email: "",
+        className: "",
+        pickUpPoint: "",
+        dropOffPoint: "",
+        status: "ABSENT",
+      });
+      setProvinceCode("");
+      resetLocationBelowProvince();
+      setCurrentPage(0);
+      fetchStudents();
+    } catch (error) {
+      toast.error(getErrorMessage(error, "Operation failed"));
+    }
+  };
+
+  const handleEdit = (student) => {
+    setEditingStudent(student);
+    setFormData({
+      name: student.name || "",
+      email: student.email || "",
+      className: student.className || "",
+      pickUpPoint: student.pickUpPoint || "",
+      dropOffPoint: student.dropOffPoint || "",
+      status: student.status || "ABSENT",
+    });
+    setProvinceCode("");
+    resetLocationBelowProvince();
+    hydrateLocationForEdit(student.location?.code);
+    setFormStep(1);
+    setShowModal(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure you want to delete this student?")) return;
+    try {
+      await studentService.delete(id);
+      toast.success("Student deleted successfully");
+      setCurrentPage(0);
+      fetchStudents();
+    } catch (error) {
+      toast.error("Failed to delete student");
+    }
+  };
+
+  const openAssignBus = (student) => {
+    setAssigningStudent(student);
+    setSelectedBusId(student?.bus?.id ? String(student.bus.id) : "");
+    setShowAssignBusModal(true);
+  };
+
+  const handleAssignBus = async (e) => {
