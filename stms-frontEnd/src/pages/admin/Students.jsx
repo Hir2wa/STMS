@@ -897,4 +897,64 @@ const Students = () => {
 
             {/* Progress Indicator */}
             <div className="mb-6">
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-medium text-gray-600">
+                  Step {formStep} of 4
+                </span>
+                <span className="text-xs text-gray-500">
+                  {Math.round((formStep / 4) * 100)}%
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-emerald-600 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${(formStep / 4) * 100}%` }}
+                ></div>
+              </div>
+              <div className="flex justify-between mt-2">
+                <span
+                  className={`text-xs ${formStep >= 1 ? "text-emerald-600 font-medium" : "text-gray-400"}`}
+                >
+                  Basic Info
+                </span>
+                <span
+                  className={`text-xs ${formStep >= 2 ? "text-emerald-600 font-medium" : "text-gray-400"}`}
+                >
+                  Transport
+                </span>
+                <span
+                  className={`text-xs ${formStep >= 3 ? "text-emerald-600 font-medium" : "text-gray-400"}`}
+                >
+                  Location
+                </span>
+                <span
+                  className={`text-xs ${formStep >= 4 ? "text-emerald-600 font-medium" : "text-gray-400"}`}
+                >
+                  Review
+                </span>
+              </div>
+            </div>
+
+            <form
+              onSubmit={handleSubmit}
+              className="flex-1 flex flex-col overflow-hidden"
+            >
+              <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+                {/* Step 1: Basic Information */}
+                {formStep === 1 && (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Student Name *
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.name}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        required
+                      />
+                    </div>
+                    <div>
