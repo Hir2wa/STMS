@@ -177,4 +177,64 @@ const Students = () => {
       setLocationFilter(filterProvince);
     } else {
       setLocationFilter("");
-    }
+    }
+  }, [filterProvince, filterDistrict, filterSector, filterCell, filterVillage]);
+
+  const fetchStudents = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token || !token.trim()) {
+        setLoading(false);
+        return;
+      }
+      setLoading(true);
+      let data;
+
+      // If location filter is set, search students by location
+      if (locationFilter) {
+        data = await studentService.getByLocationCodePaginated(
+          locationFilter,
+          currentPage,
+          pageSize,
+          "name",
+          "asc",
+        );
+      } else if (searchTerm.trim()) {
+        data = await studentService.searchPaginated(
+          searchTerm,
+          currentPage,
+          pageSize,
+          "name",
+          "asc",
+        );
+      } else {
+        data = await studentService.getAllPaginated(
+          currentPage,
+          pageSize,
+          "name",
+          "asc",
+        );
+      }
+
+      setStudents(data?.content || []);
+      setTotalPages(data?.totalPages || 0);
+      setTotalElements(data?.totalElements || 0);
+    } catch (error) {
+      if (
+        error.message?.includes("authentication") ||
+        error.message?.includes("Session expired")
+      ) {
+        // Don't show error toast, redirect will happen
+        setLoading(false);
+        return;
+      }
+      toast.error("Failed to fetch students");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const clearLocationFilter = () => {
+    setFilterProvince("");
+    setFilterDistrict("");
+    setFilterSector("");

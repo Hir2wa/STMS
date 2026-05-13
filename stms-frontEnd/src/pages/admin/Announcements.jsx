@@ -177,4 +177,64 @@ const Announcements = () => {
                         <input
                             type="text"
                             placeholder="Search announcements..."
-                            value={searchTerm}
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        />
+                    </div>
+                </div>
+
+                {loading ? (
+                    <div className="text-center py-8 text-gray-500">Loading...</div>
+                ) : filteredAnnouncements.length === 0 ? (
+                    <div className="text-center py-8 text-gray-500">No announcements found</div>
+                ) : (
+                    <div className="space-y-4">
+                        {filteredAnnouncements.map((announcement, index) => (
+                            <div key={announcement.id || index} className="border border-gray-100 rounded-lg overflow-hidden">
+                                <div className="p-4 hover:bg-gray-50 transition">
+                                    <div className="flex items-start gap-4">
+                                        <div className="h-12 w-12 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <Megaphone className="h-6 w-6 text-amber-700" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <h3 className="font-semibold text-gray-900">{announcement.title}</h3>
+                                                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getPriorityColor(announcement.priority)}`}>
+                                                    {announcement.priority || 'NORMAL'}
+                                                </span>
+                                            </div>
+                                            <p className="text-gray-600 text-sm">{announcement.message}</p>
+                                            <div className="flex items-center gap-3 mt-2">
+                                                <p className="text-gray-400 text-xs">
+                                                    {announcement.createdAt ? new Date(announcement.createdAt).toLocaleDateString() : 'Recently'}
+                                                </p>
+                                                {announcement.recipientEmail ? (
+                                                    <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded">
+                                                        To: {announcement.recipientEmail}
+                                                    </span>
+                                                ) : (
+                                                    <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">
+                                                        To: {announcement.targetAudience || 'ALL'}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <button
+                                            onClick={() => handleToggleAnnouncement(announcement.id)}
+                                            className="flex items-center gap-2 px-3 py-2 text-sm text-emerald-700 hover:bg-emerald-50 rounded-lg transition"
+                                        >
+                                            <MessageSquare className="h-4 w-4" />
+                                            {expandedAnnouncement === announcement.id ? 'Hide Replies' : `View Replies (${replies[announcement.id]?.length || 0})`}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {expandedAnnouncement === announcement.id && (
+                                    <div className="border-t border-gray-100 bg-gray-50 p-4">
+                                        <h4 className="font-semibold text-gray-900 mb-3">Replies from Students & Drivers</h4>
+                                        
+                                        {loadingReplies[announcement.id] ? (
+                                            <div className="text-center py-4 text-gray-500">Loading replies...</div>
+                                        ) : (
+                                            <div className="space-y-3">
