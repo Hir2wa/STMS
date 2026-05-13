@@ -717,4 +717,64 @@ const Students = () => {
                     <th className="text-left py-3 px-4 text-gray-600 font-semibold bg-white">
                       Name
                     </th>
-                    <th className="text-left py-3 px-4 text-gray-600 font-semibold bg-white">
+                    <th className="text-left py-3 px-4 text-gray-600 font-semibold bg-white">
+                      Email
+                    </th>
+                    <th className="text-left py-3 px-4 text-gray-600 font-semibold bg-white">
+                      Class
+                    </th>
+                    <th className="text-left py-3 px-4 text-gray-600 font-semibold bg-white">
+                      Pick Up
+                    </th>
+                    <th className="text-left py-3 px-4 text-gray-600 font-semibold bg-white">
+                      Drop Off
+                    </th>
+                    <th className="text-left py-3 px-4 text-gray-600 font-semibold bg-white">
+                      Location
+                    </th>
+                    <th className="text-left py-3 px-4 text-gray-600 font-semibold bg-white">
+                      Bus
+                    </th>
+                    <th className="text-left py-3 px-4 text-gray-600 font-semibold bg-white">
+                      Status
+                    </th>
+                    <th className="text-left py-3 px-4 text-gray-600 font-semibold bg-white">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {displayStudents.map((student) => (
+                    <tr
+                      key={student.id}
+                      className="border-b border-gray-100 hover:bg-gray-50 cursor-pointer"
+                      onClick={() => handleStudentClick(student)}
+                    >
+                      <td className="py-3 px-4 flex items-center gap-3">
+                        <div className="h-10 w-10 bg-lime-100 rounded-lg flex items-center justify-center">
+                          <GraduationCap className="h-5 w-5 text-lime-700" />
+                        </div>
+                        <span className="font-medium text-emerald-700 hover:text-emerald-800">
+                          {student.name}
+                        </span>
+                      </td>
+                      <td className="py-3 px-4">{student.email || "-"}</td>
+                      <td className="py-3 px-4">{student.className || "-"}</td>
+                      <td className="py-3 px-4">
+                        {student.pickUpPoint || "-"}
+                      </td>
+                      <td className="py-3 px-4">
+                        {student.dropOffPoint || "-"}
+                      </td>
+                      <td className="py-3 px-4">
+                        {student.location?.name ? (
+                          <span className="text-blue-600 hover:text-blue-800 font-medium">
+                            {student.location.name}
+                          </span>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                      <td className="py-3 px-4">
+                        {student.bus?.plateNumber || "-"}
+                      </td>
