@@ -657,4 +657,64 @@ const Students = () => {
               <select
                 value={filterSector}
                 onChange={(e) => setFilterSector(e.target.value)}
-                className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+                className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+              >
+                <option value="">All Sectors</option>
+                {filterSectors.map((s) => (
+                  <option key={s.code} value={s.code}>
+                    {s.name}
+                  </option>
+                ))}
+              </select>
+            )}
+
+            {filterSector && (
+              <select
+                value={filterCell}
+                onChange={(e) => setFilterCell(e.target.value)}
+                className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+              >
+                <option value="">All Cells</option>
+                {filterCells.map((c) => (
+                  <option key={c.code} value={c.code}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            )}
+
+            {filterCell && (
+              <select
+                value={filterVillage}
+                onChange={(e) => setFilterVillage(e.target.value)}
+                className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+              >
+                <option value="">All Villages</option>
+                {filterVillages.map((v) => (
+                  <option key={v.code} value={v.code}>
+                    {v.name}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="text-center py-8 text-gray-500 flex-1 flex items-center justify-center">
+            Loading...
+          </div>
+        ) : displayStudents.length === 0 ? (
+          <div className="text-center py-8 text-gray-500 flex-1 flex items-center justify-center">
+            No students found
+          </div>
+        ) : (
+          <>
+            <div className="overflow-auto flex-1 min-h-0">
+              <table className="w-full">
+                <thead className="sticky top-0 bg-white z-10">
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left py-3 px-4 text-gray-600 font-semibold bg-white">
+                      Name
+                    </th>
+                    <th className="text-left py-3 px-4 text-gray-600 font-semibold bg-white">
