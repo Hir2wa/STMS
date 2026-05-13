@@ -537,4 +537,64 @@ const Students = () => {
     setShowAssignBusModal(true);
   };
 
-  const handleAssignBus = async (e) => {
+  const handleAssignBus = async (e) => {
+    e.preventDefault();
+    if (!assigningStudent?.id) return;
+    if (!selectedBusId) {
+      toast.error("Please select a bus");
+      return;
+    }
+    try {
+      await studentService.assignBus(
+        assigningStudent.id,
+        Number(selectedBusId),
+      );
+      toast.success("Bus assigned successfully");
+      setShowAssignBusModal(false);
+      setAssigningStudent(null);
+      setSelectedBusId("");
+      setCurrentPage(0);
+      fetchStudents();
+    } catch (error) {
+      toast.error(getErrorMessage(error, "Failed to assign bus"));
+    }
+  };
+
+  // No need for client-side filtering when using server-side pagination
+  const displayStudents = students;
+
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Students</h1>
+          <p className="text-gray-600 mt-1">Manage student records</p>
+        </div>
+        <button
+          onClick={() => {
+            setShowModal(true);
+            setEditingStudent(null);
+            setFormStep(1);
+            setFormData({
+              name: "",
+              email: "",
+              className: "",
+              pickUpPoint: "",
+              dropOffPoint: "",
+              status: "ABSENT",
+            });
+            setProvinceCode("");
+            resetLocationBelowProvince();
+          }}
+          className="flex items-center gap-2 bg-emerald-700 text-white px-4 py-2 rounded-lg hover:bg-emerald-800 transition"
+        >
+          <Plus className="h-5 w-5" /> Add Student
+        </button>
+      </div>
+
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-[calc(100vh-200px)]">
+        <div className="flex flex-col gap-4 mb-6 flex-shrink-0">
+          {/* Search and Location Filter Row */}
+          <div className="flex items-center gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
