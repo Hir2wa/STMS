@@ -1017,4 +1017,64 @@ const Students = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Drop Off Point
+                        Drop Off Point
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.dropOffPoint}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            dropOffPoint: e.target.value,
+                          })
+                        }
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        placeholder="Enter dropoff location"
+                      />
+                    </div>
+                  </>
+                )}
+
+                {/* Step 3: Location */}
+                {formStep === 3 && (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Province *
+                      </label>
+                      <select
+                        value={provinceCode}
+                        onChange={(e) => handleProvinceChange(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        required
+                      >
+                        <option value="">Select province</option>
+                        {provinces.map((p) => (
+                          <option key={p.code} value={p.code}>
+                            {p.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        District *
+                      </label>
+                      <select
+                        value={districtCode}
+                        onChange={(e) => handleDistrictChange(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        disabled={!provinceCode}
+                        required
+                      >
+                        <option value="">Select district</option>
+                        {districts.map((d) => (
+                          <option key={d.code} value={d.code}>
+                            {d.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Sector *
