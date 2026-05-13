@@ -237,4 +237,64 @@ const Students = () => {
   const clearLocationFilter = () => {
     setFilterProvince("");
     setFilterDistrict("");
-    setFilterSector("");
+    setFilterSector("");
+    setFilterCell("");
+    setFilterVillage("");
+    setFilterDistricts([]);
+    setFilterSectors([]);
+    setFilterCells([]);
+    setFilterVillages([]);
+    setLocationFilter("");
+  };
+
+  const handleStudentClick = async (student) => {
+    setSelectedStudent(student);
+    setLoadingStudentDetails(true);
+    setShowDetailModal(true);
+    try {
+      // Build location hierarchy
+      const hierarchy = [];
+      if (student.location) {
+        let current = student.location;
+        while (current) {
+          hierarchy.unshift(current);
+          if (current.parent) {
+            try {
+              const parentData = await locationService.getByCode(
+                current.parent.code,
+              );
+              if (parentData) {
+                current = parentData;
+              } else {
+                break;
+              }
+            } catch (e) {
+              break;
+            }
+          } else {
+            break;
+          }
+        }
+      }
+      setStudentLocationHierarchy(hierarchy);
+    } catch (e) {
+      toast.error("Failed to load student location details");
+      setStudentLocationHierarchy([]);
+    } finally {
+      setLoadingStudentDetails(false);
+    }
+  };
+
+  const fetchBuses = async () => {
+    try {
+      const data = await busService.getAll();
+      setBuses(data || []);
+    } catch (error) {
+      console.error("Failed to fetch buses");
+    }
+  };
+
+  const fetchProvinces = async () => {
+    try {
+      const data = await locationService.getRoots();
+      setProvinces((data || []).filter((l) => l.type === "PROVINCE"));

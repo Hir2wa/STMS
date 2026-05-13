@@ -237,4 +237,64 @@ const Announcements = () => {
                                         {loadingReplies[announcement.id] ? (
                                             <div className="text-center py-4 text-gray-500">Loading replies...</div>
                                         ) : (
-                                            <div className="space-y-3">
+                                            <div className="space-y-3">
+                                                {replies[announcement.id]?.length > 0 ? (
+                                                    replies[announcement.id].map((reply) => (
+                                                        <div key={reply.id} className="bg-white p-3 rounded-lg border border-gray-200">
+                                                            <div className="flex items-start gap-3">
+                                                                <div className="h-8 w-8 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                                                    <span className="text-xs font-semibold text-emerald-700">
+                                                                        {reply.user?.fullNames?.charAt(0) || 'U'}
+                                                                    </span>
+                                                                </div>
+                                                                <div className="flex-1">
+                                                                    <div className="flex items-center gap-2">
+                                                                        <p className="text-sm font-medium text-gray-900">
+                                                                            {reply.user?.fullNames || 'Unknown User'}
+                                                                        </p>
+                                                                        <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">
+                                                                            {reply.user?.role || 'USER'}
+                                                                        </span>
+                                                                    </div>
+                                                                    <p className="text-sm text-gray-600 mt-1">{reply.message}</p>
+                                                                    <p className="text-xs text-gray-400 mt-1">
+                                                                        {reply.createdAt ? new Date(reply.createdAt).toLocaleString() : ''}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <div className="text-center py-4 text-gray-500 text-sm">No replies yet</div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            {showModal && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-xl p-6 w-full max-w-md">
+                        <h2 className="text-xl font-bold mb-4">New Announcement</h2>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                                <input
+                                    type="text"
+                                    value={formData.title}
+                                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                                <textarea
+                                    value={formData.message}
+                                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                    rows={4}
