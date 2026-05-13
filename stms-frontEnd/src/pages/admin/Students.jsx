@@ -597,4 +597,64 @@ const Students = () => {
           {/* Search and Location Filter Row */}
           <div className="flex items-center gap-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search students by name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              />
+            </div>
+            {locationFilter && (
+              <button
+                onClick={clearLocationFilter}
+                className="flex items-center gap-2 px-3 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition"
+              >
+                <X className="h-4 w-4" />
+                Clear Location Filter
+              </button>
+            )}
+          </div>
+
+          {/* Location Filter Dropdowns */}
+          <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-gray-500" />
+              <span className="text-sm text-gray-600 font-medium">
+                Filter by Location:
+              </span>
+            </div>
+            <select
+              value={filterProvince}
+              onChange={(e) => setFilterProvince(e.target.value)}
+              className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+            >
+              <option value="">All Provinces</option>
+              {provinces.map((p) => (
+                <option key={p.code} value={p.code}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+
+            {filterProvince && (
+              <select
+                value={filterDistrict}
+                onChange={(e) => setFilterDistrict(e.target.value)}
+                className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+              >
+                <option value="">All Districts</option>
+                {filterDistricts.map((d) => (
+                  <option key={d.code} value={d.code}>
+                    {d.name}
+                  </option>
+                ))}
+              </select>
+            )}
+
+            {filterDistrict && (
+              <select
+                value={filterSector}
+                onChange={(e) => setFilterSector(e.target.value)}
+                className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
