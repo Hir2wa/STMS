@@ -117,4 +117,64 @@ const Students = () => {
 
   // Load filter districts when province is selected
   useEffect(() => {
-    if (filterProvince) {
+    if (filterProvince) {
+      locationService.getChildren(filterProvince).then((data) => {
+        setFilterDistricts((data || []).filter((l) => l.type === "DISTRICT"));
+      });
+    } else {
+      setFilterDistricts([]);
+      setFilterDistrict("");
+    }
+  }, [filterProvince]);
+
+  // Load filter sectors when district is selected
+  useEffect(() => {
+    if (filterDistrict) {
+      locationService.getChildren(filterDistrict).then((data) => {
+        setFilterSectors((data || []).filter((l) => l.type === "SECTOR"));
+      });
+    } else {
+      setFilterSectors([]);
+      setFilterSector("");
+    }
+  }, [filterDistrict]);
+
+  // Load filter cells when sector is selected
+  useEffect(() => {
+    if (filterSector) {
+      locationService.getChildren(filterSector).then((data) => {
+        setFilterCells((data || []).filter((l) => l.type === "CELL"));
+      });
+    } else {
+      setFilterCells([]);
+      setFilterCell("");
+    }
+  }, [filterSector]);
+
+  // Load filter villages when cell is selected
+  useEffect(() => {
+    if (filterCell) {
+      locationService.getChildren(filterCell).then((data) => {
+        setFilterVillages((data || []).filter((l) => l.type === "VILLAGE"));
+      });
+    } else {
+      setFilterVillages([]);
+      setFilterVillage("");
+    }
+  }, [filterCell]);
+
+  // Update location filter based on selected location
+  useEffect(() => {
+    if (filterVillage) {
+      setLocationFilter(filterVillage);
+    } else if (filterCell) {
+      setLocationFilter(filterCell);
+    } else if (filterSector) {
+      setLocationFilter(filterSector);
+    } else if (filterDistrict) {
+      setLocationFilter(filterDistrict);
+    } else if (filterProvince) {
+      setLocationFilter(filterProvince);
+    } else {
+      setLocationFilter("");
+    }

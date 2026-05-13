@@ -117,4 +117,12 @@ const DashboardHome = () => {
                                 <p className="text-sm font-medium text-[#1a3a2f]">New Schedule Published</p>
                                 <p className="text-xs text-[#5a7d6a]">2 hours ago</p>
                             </div>
-                        </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default DashboardHome;
