@@ -357,4 +357,64 @@ const Students = () => {
     try {
       const kids = await locationService.getChildren(code);
       setSectors((kids || []).filter((l) => l.type === "SECTOR"));
-    } catch (e) {
+    } catch (e) {
+      toast.error("Failed to load sectors");
+    }
+  };
+
+  const handleSectorChange = async (code) => {
+    setSectorCode(code);
+    resetLocationBelowSector();
+    if (!code) return;
+    try {
+      const kids = await locationService.getChildren(code);
+      setCells((kids || []).filter((l) => l.type === "CELL"));
+    } catch (e) {
+      toast.error("Failed to load cells");
+    }
+  };
+
+  const handleCellChange = async (code) => {
+    setCellCode(code);
+    resetLocationBelowCell();
+    if (!code) return;
+    try {
+      const kids = await locationService.getChildren(code);
+      setVillages((kids || []).filter((l) => l.type === "VILLAGE"));
+    } catch (e) {
+      toast.error("Failed to load villages");
+    }
+  };
+
+  const hydrateLocationForEdit = async (anyCode) => {
+    if (!anyCode) return;
+    try {
+      const codesByType = {};
+      let currentCode = anyCode;
+      let guard = 0;
+
+      while (currentCode && guard < 10) {
+        const loc = await locationService.getByCode(currentCode);
+        if (!loc) break;
+        if (loc.type && loc.code) {
+          codesByType[loc.type] = loc.code;
+        }
+        currentCode = loc.parent?.code || "";
+        guard += 1;
+      }
+
+      const p = codesByType.PROVINCE || "";
+      const d = codesByType.DISTRICT || "";
+      const s = codesByType.SECTOR || "";
+      const c = codesByType.CELL || "";
+      const v = codesByType.VILLAGE || anyCode;
+
+      setProvinceCode(p);
+      if (p) {
+        const dKids = await locationService.getChildren(p);
+        setDistricts((dKids || []).filter((l) => l.type === "DISTRICT"));
+      }
+
+      setDistrictCode(d);
+      if (d) {
+        const sKids = await locationService.getChildren(d);

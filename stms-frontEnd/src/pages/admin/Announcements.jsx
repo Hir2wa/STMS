@@ -357,4 +357,39 @@ const Announcements = () => {
                                                         {student.name} ({student.email})
                                                     </option>
                                                 ))}
-                                            </optgroup>
+                                            </optgroup>
+                                            <optgroup label="Drivers">
+                                                {drivers.map((driver) => (
+                                                    <option key={driver.driverId} value={driver.email}>
+                                                        {driver.name} ({driver.email})
+                                                    </option>
+                                                ))}
+                                            </optgroup>
+                                        </select>
+                                    )}
+                                </div>
+                            )}
+                            <div className="flex gap-3 pt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowModal(false)}
+                                    className="flex-1 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="flex-1 px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800"
+                                >
+                                    Publish
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default Announcements;
