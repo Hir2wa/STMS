@@ -777,4 +777,64 @@ const Students = () => {
                       </td>
                       <td className="py-3 px-4">
                         {student.bus?.plateNumber || "-"}
-                      </td>
+                      </td>
+                      <td className="py-3 px-4">
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            student.status === "ONBUS"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-gray-100 text-gray-700"
+                          }`}
+                        >
+                          {student.status || "-"}
+                        </span>
+                      </td>
+                      <td
+                        className="py-3 px-4"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => openAssignBus(student)}
+                            className="p-2 hover:bg-emerald-50 rounded-lg"
+                            title="Assign bus"
+                          >
+                            <BusIcon className="h-4 w-4 text-emerald-700" />
+                          </button>
+                          <button
+                            onClick={() => handleEdit(student)}
+                            className="p-2 hover:bg-gray-100 rounded-lg"
+                          >
+                            <Edit2 className="h-4 w-4 text-gray-600" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(student.id)}
+                            className="p-2 hover:bg-red-50 rounded-lg"
+                          >
+                            <Trash2 className="h-4 w-4 text-red-600" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="flex-shrink-0 mt-4 pt-4 border-t border-gray-200">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                pageSize={pageSize}
+                onPageSizeChange={(newSize) => {
+                  setPageSize(newSize);
+                  setCurrentPage(0);
+                }}
+                totalElements={totalElements}
+              />
+            </div>
+          </>
+        )}
+      </div>
+
+      {showAssignBusModal && (
