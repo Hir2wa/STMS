@@ -297,4 +297,64 @@ const Students = () => {
   const fetchProvinces = async () => {
     try {
       const data = await locationService.getRoots();
-      setProvinces((data || []).filter((l) => l.type === "PROVINCE"));
+      setProvinces((data || []).filter((l) => l.type === "PROVINCE"));
+      if (!data || data.length === 0) {
+        toast.error("No provinces found. Add locations in Admin → Locations.");
+      }
+    } catch (error) {
+      toast.error(getErrorMessage(error, "Failed to fetch provinces"));
+    }
+  };
+
+  const resetLocationBelowProvince = () => {
+    setDistricts([]);
+    setSectors([]);
+    setCells([]);
+    setVillages([]);
+    setDistrictCode("");
+    setSectorCode("");
+    setCellCode("");
+    setVillageCode("");
+  };
+
+  const resetLocationBelowDistrict = () => {
+    setSectors([]);
+    setCells([]);
+    setVillages([]);
+    setSectorCode("");
+    setCellCode("");
+    setVillageCode("");
+  };
+
+  const resetLocationBelowSector = () => {
+    setCells([]);
+    setVillages([]);
+    setCellCode("");
+    setVillageCode("");
+  };
+
+  const resetLocationBelowCell = () => {
+    setVillages([]);
+    setVillageCode("");
+  };
+
+  const handleProvinceChange = async (code) => {
+    setProvinceCode(code);
+    resetLocationBelowProvince();
+    if (!code) return;
+    try {
+      const kids = await locationService.getChildren(code);
+      setDistricts((kids || []).filter((l) => l.type === "DISTRICT"));
+    } catch (e) {
+      toast.error("Failed to load districts");
+    }
+  };
+
+  const handleDistrictChange = async (code) => {
+    setDistrictCode(code);
+    resetLocationBelowDistrict();
+    if (!code) return;
+    try {
+      const kids = await locationService.getChildren(code);
+      setSectors((kids || []).filter((l) => l.type === "SECTOR"));
+    } catch (e) {

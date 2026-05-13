@@ -297,4 +297,64 @@ const Announcements = () => {
                                 <textarea
                                     value={formData.message}
                                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                    rows={4}
+                                    rows={4}
+                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                                <select
+                                    value={formData.priority}
+                                    onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                >
+                                    <option value="NORMAL">Normal</option>
+                                    <option value="HIGH">High</option>
+                                    <option value="URGENT">Urgent</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Target Audience</label>
+                                <select
+                                    value={formData.targetType}
+                                    onChange={(e) => setFormData({ ...formData, targetType: e.target.value, recipientEmail: '' })}
+                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                >
+                                    <option value="ROLE">By Role (All, Drivers, Students)</option>
+                                    <option value="SPECIFIC">Specific Person</option>
+                                </select>
+                            </div>
+                            {formData.targetType === 'ROLE' ? (
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                                    <select
+                                        value={formData.targetAudience}
+                                        onChange={(e) => setFormData({ ...formData, targetAudience: e.target.value })}
+                                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                    >
+                                        <option value="ALL">All Users</option>
+                                        <option value="DRIVER">All Drivers</option>
+                                        <option value="STUDENT">All Students</option>
+                                    </select>
+                                </div>
+                            ) : (
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Select Recipient</label>
+                                    {loadingRecipients ? (
+                                        <div className="text-sm text-gray-500 py-2">Loading recipients...</div>
+                                    ) : (
+                                        <select
+                                            value={formData.recipientEmail}
+                                            onChange={(e) => setFormData({ ...formData, recipientEmail: e.target.value })}
+                                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                            required
+                                        >
+                                            <option value="">Select a person...</option>
+                                            <optgroup label="Students">
+                                                {students.map((student) => (
+                                                    <option key={student.id} value={student.email}>
+                                                        {student.name} ({student.email})
+                                                    </option>
+                                                ))}
+                                            </optgroup>
