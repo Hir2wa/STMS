@@ -1077,4 +1077,64 @@ const Students = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Sector *
+                        Sector *
+                      </label>
+                      <select
+                        value={sectorCode}
+                        onChange={(e) => handleSectorChange(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        disabled={!districtCode}
+                        required
+                      >
+                        <option value="">Select sector</option>
+                        {sectors.map((s) => (
+                          <option key={s.code} value={s.code}>
+                            {s.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Cell *
+                      </label>
+                      <select
+                        value={cellCode}
+                        onChange={(e) => handleCellChange(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        disabled={!sectorCode}
+                        required
+                      >
+                        <option value="">Select cell</option>
+                        {cells.map((c) => (
+                          <option key={c.code} value={c.code}>
+                            {c.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Village *
+                      </label>
+                      <select
+                        value={villageCode}
+                        onChange={(e) => setVillageCode(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        disabled={!cellCode}
+                        required
+                      >
+                        <option value="">Select village</option>
+                        {villages.map((v) => (
+                          <option key={v.code} value={v.code}>
+                            {v.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </>
+                )}
+
+                {/* Step 4: Status & Review */}
+                {formStep === 4 && (
+                  <>
