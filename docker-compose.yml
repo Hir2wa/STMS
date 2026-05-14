@@ -1,0 +1,49 @@
+name: school-bus-tracking-system-26587
+
+services:
+  db:
+    image: alainfabrice/school-bus-tracking-system-database:latest
+    container_name: stms_db
+    restart: always
+    environment:
+      POSTGRES_DB: school_bus_management_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "2003"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d school_bus_management_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    image: alainfabrice/school-bus-tracking-system-backend:latest
+    container_name: stms_backend
+    restart: always
+    ports:
+      - "8081:1000"
+    environment:
+      # Overrides application.properties to point to the 'db' container
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/school_bus_management_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: "2003"
+      SPRING_MAIL_USERNAME: "alainfabricehirwa@gmail.com"
+      SPRING_MAIL_PASSWORD: "rjafxdsswyruwcql"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    image: alainfabrice/school-bus-tracking-system-frontend:latest
+    container_name: stms_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

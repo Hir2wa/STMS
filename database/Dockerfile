@@ -1,0 +1,5 @@
+FROM postgres:13-alpine
+ENV POSTGRES_DB=school_bus_management_db
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD="2003"
+EXPOSE 5432
