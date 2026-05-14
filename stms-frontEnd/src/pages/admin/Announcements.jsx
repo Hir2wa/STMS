@@ -194,7 +194,7 @@ const Announcements = () => {
                             <div key={announcement.id || index} className="border border-gray-100 rounded-lg overflow-hidden">
                                 <div className="p-4 hover:bg-gray-50 transition">
                                     <div className="flex items-start gap-4">
-                                        <div className="h-12 w-12 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <div className="h-12 w-12 bg-amber-100 rounded-lg flex items-center justify-center shrink-0">
                                             <Megaphone className="h-6 w-6 text-amber-700" />
                                         </div>
                                         <div className="flex-1">
@@ -242,7 +242,7 @@ const Announcements = () => {
                                                     replies[announcement.id].map((reply) => (
                                                         <div key={reply.id} className="bg-white p-3 rounded-lg border border-gray-200">
                                                             <div className="flex items-start gap-3">
-                                                                <div className="h-8 w-8 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                                                <div className="h-8 w-8 bg-emerald-100 rounded-full flex items-center justify-center shrink-0">
                                                                     <span className="text-xs font-semibold text-emerald-700">
                                                                         {reply.user?.fullNames?.charAt(0) || 'U'}
                                                                     </span>

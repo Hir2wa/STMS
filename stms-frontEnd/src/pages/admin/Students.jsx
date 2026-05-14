@@ -593,7 +593,7 @@ const Students = () => {
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-[calc(100vh-200px)]">
-        <div className="flex flex-col gap-4 mb-6 flex-shrink-0">
+        <div className="flex flex-col gap-4 mb-6 shrink-0">
           {/* Search and Location Filter Row */}
           <div className="flex items-center gap-4">
             <div className="relative flex-1">
@@ -820,7 +820,7 @@ const Students = () => {
                 </tbody>
               </table>
             </div>
-            <div className="flex-shrink-0 mt-4 pt-4 border-t border-gray-200">
+            <div className="shrink-0 mt-4 pt-4 border-t border-gray-200">
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
