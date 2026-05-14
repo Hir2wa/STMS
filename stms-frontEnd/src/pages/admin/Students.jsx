@@ -1377,4 +1377,64 @@ const Students = () => {
                           <span className="font-medium">Phone:</span>{" "}
                           {selectedStudent.parent.phoneNumber}
                         </p>
-                      )}
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Location Hierarchy */}
+                {studentLocationHierarchy.length > 0 && (
+                  <div className="bg-teal-50 rounded-lg p-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <MapPin className="h-5 w-5 text-teal-600" />
+                      <p className="text-sm font-semibold text-gray-700">
+                        Location Hierarchy
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      {studentLocationHierarchy.map((loc, index) => (
+                        <div
+                          key={loc.code}
+                          className={`flex items-center gap-2 p-2 bg-white rounded ${index === studentLocationHierarchy.length - 1 ? "ring-2 ring-teal-500" : ""}`}
+                        >
+                          <MapPin
+                            className={`h-4 w-4 ${index === studentLocationHierarchy.length - 1 ? "text-teal-600" : "text-gray-400"}`}
+                          />
+                          <div className="flex-1">
+                            <span
+                              className={`font-medium ${index === studentLocationHierarchy.length - 1 ? "text-teal-900" : "text-gray-700"}`}
+                            >
+                              {loc.name}
+                            </span>
+                            <span className="text-xs text-gray-500 ml-2">
+                              ({loc.code})
+                            </span>
+                          </div>
+                          <span className="text-xs text-gray-400">
+                            {loc.type}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    {selectedStudent.location && (
+                      <p className="text-xs text-gray-500 mt-2">
+                        Current location:{" "}
+                        <span className="font-medium">
+                          {selectedStudent.location.name}
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {studentLocationHierarchy.length === 0 &&
+                  selectedStudent.location && (
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <MapPin className="h-5 w-5 text-gray-600" />
+                        <p className="text-sm font-semibold text-gray-700">
+                          Location
+                        </p>
+                      </div>
+                      <p className="text-sm text-gray-600">
+                        {selectedStudent.location.name} (
