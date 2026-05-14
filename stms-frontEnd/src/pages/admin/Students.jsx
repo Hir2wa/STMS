@@ -1317,4 +1317,64 @@ const Students = () => {
                   <div className="bg-gray-50 rounded-lg p-4">
                     <p className="text-sm text-gray-600 mb-1">Pick Up Point</p>
                     <p className="font-semibold text-gray-900">
-                      {selectedStudent.pickUpPoint || "Not set"}
+                      {selectedStudent.pickUpPoint || "Not set"}
+                    </p>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <p className="text-sm text-gray-600 mb-1">Drop Off Point</p>
+                    <p className="font-semibold text-gray-900">
+                      {selectedStudent.dropOffPoint || "Not set"}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Bus Information */}
+                {selectedStudent.bus && (
+                  <div className="bg-blue-50 rounded-lg p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <BusIcon className="h-5 w-5 text-blue-600" />
+                      <p className="text-sm font-semibold text-gray-700">
+                        Bus Information
+                      </p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-sm text-gray-600">
+                        <span className="font-medium">Plate Number:</span>{" "}
+                        {selectedStudent.bus.plateNumber}
+                      </p>
+                      {selectedStudent.bus.capacity && (
+                        <p className="text-sm text-gray-600">
+                          <span className="font-medium">Capacity:</span>{" "}
+                          {selectedStudent.bus.capacity}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Parent Information */}
+                {selectedStudent.parent && (
+                  <div className="bg-purple-50 rounded-lg p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <User className="h-5 w-5 text-purple-600" />
+                      <p className="text-sm font-semibold text-gray-700">
+                        Parent Information
+                      </p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-sm text-gray-600">
+                        <span className="font-medium">Name:</span>{" "}
+                        {selectedStudent.parent.fullNames || "N/A"}
+                      </p>
+                      {selectedStudent.parent.email && (
+                        <p className="text-sm text-gray-600">
+                          <span className="font-medium">Email:</span>{" "}
+                          {selectedStudent.parent.email}
+                        </p>
+                      )}
+                      {selectedStudent.parent.phoneNumber && (
+                        <p className="text-sm text-gray-600">
+                          <span className="font-medium">Phone:</span>{" "}
+                          {selectedStudent.parent.phoneNumber}
+                        </p>
+                      )}
