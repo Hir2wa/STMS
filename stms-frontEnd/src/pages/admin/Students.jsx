@@ -1437,4 +1437,18 @@ const Students = () => {
                         </p>
                       </div>
                       <p className="text-sm text-gray-600">
-                        {selectedStudent.location.name} (
+                        {selectedStudent.location.name} (
+                        {selectedStudent.location.code})
+                      </p>
+                    </div>
+                  )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Students;
