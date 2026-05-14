@@ -1257,4 +1257,64 @@ const Students = () => {
           onClick={() => setShowDetailModal(false)}
         >
           <div
-            className="bg-white rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-gray-900">
+                Student Details
+              </h2>
+              <button
+                onClick={() => setShowDetailModal(false)}
+                className="p-2 hover:bg-gray-100 rounded-lg"
+              >
+                <X className="h-5 w-5 text-gray-600" />
+              </button>
+            </div>
+
+            {loadingStudentDetails ? (
+              <div className="text-center py-8 text-gray-500">
+                Loading details...
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {/* Student Basic Info */}
+                <div className="bg-emerald-50 rounded-lg p-4">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="h-12 w-12 bg-emerald-100 rounded-lg flex items-center justify-center">
+                      <GraduationCap className="h-6 w-6 text-emerald-700" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900">
+                        {selectedStudent.name}
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        {selectedStudent.email}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Student Information Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="flex items-center gap-2 mb-1">
+                      <School className="h-4 w-4 text-gray-600" />
+                      <p className="text-sm text-gray-600">Class</p>
+                    </div>
+                    <p className="font-semibold text-gray-900">
+                      {selectedStudent.className || "Not set"}
+                    </p>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <p className="text-sm text-gray-600 mb-1">Status</p>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${selectedStudent.status === "ONBUS" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"}`}
+                    >
+                      {selectedStudent.status || "ABSENT"}
+                    </span>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <p className="text-sm text-gray-600 mb-1">Pick Up Point</p>
+                    <p className="font-semibold text-gray-900">
+                      {selectedStudent.pickUpPoint || "Not set"}
