@@ -1197,4 +1197,64 @@ const Students = () => {
                           <span className="text-gray-600">Assigned Bus:</span>
                           <span className="font-medium">
                             {formData.busId
-                              ? buses.find(
+                              ? buses.find(
+                                  (b) =>
+                                    String(b.id) === String(formData.busId),
+                                )?.plateNumber
+                              : "None"}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Navigation Buttons */}
+              <div className="flex gap-3 pt-4 mt-4 border-t border-gray-200">
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                {formStep > 1 && (
+                  <button
+                    type="button"
+                    onClick={handlePrevious}
+                    className="px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50"
+                  >
+                    Previous
+                  </button>
+                )}
+                {formStep < 4 ? (
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="flex-1 px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800"
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="flex-1 px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800"
+                  >
+                    {editingStudent ? "Update" : "Add Student"}
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Student Detail Modal */}
+      {showDetailModal && selectedStudent && (
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          onClick={() => setShowDetailModal(false)}
+        >
+          <div
+            className="bg-white rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
