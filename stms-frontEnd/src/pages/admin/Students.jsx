@@ -1137,4 +1137,64 @@ const Students = () => {
 
                 {/* Step 4: Status & Review */}
                 {formStep === 4 && (
-                  <>
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Status
+                      </label>
+                      <select
+                        value={formData.status}
+                        onChange={(e) =>
+                          setFormData({ ...formData, status: e.target.value })
+                        }
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      >
+                        <option value="ONBUS">On Bus</option>
+                        <option value="DROPPEDOFF">Dropped Off</option>
+                        <option value="ABSENT">Absent</option>
+                      </select>
+                    </div>
+                    <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                      <h3 className="text-sm font-semibold text-gray-700 mb-3">
+                        Review Information
+                      </h3>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Name:</span>
+                          <span className="font-medium">
+                            {formData.name || "Not set"}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Email:</span>
+                          <span className="font-medium">
+                            {formData.email || "Not set"}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Class:</span>
+                          <span className="font-medium">
+                            {formData.className || "Not set"}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Pick Up:</span>
+                          <span className="font-medium">
+                            {formData.pickUpPoint || "Not set"}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Drop Off:</span>
+                          <span className="font-medium">
+                            {formData.dropOffPoint || "Not set"}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Status:</span>
+                          <span className="font-medium">{formData.status}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Assigned Bus:</span>
+                          <span className="font-medium">
+                            {formData.busId
+                              ? buses.find(
